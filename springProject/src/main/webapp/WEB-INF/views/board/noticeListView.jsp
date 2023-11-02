@@ -5,7 +5,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>게시판</title>
+    <title>공지사항 게시판</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -51,7 +51,7 @@
             <h2>게시판</h2>
             <br>
             <!-- 로그인 후 상태일 경우만 보여지는 글쓰기 버튼 -->
-            <c:if test="${ not empty sessinoScope.loginUser }">
+            <c:if test="${ not empty sessinoScope.loginUser && ('admin' eq sessionScope.loginUser.memId)}">
             	<a class="btn btn-secondary" style="float:right;" href="">글쓰기</a>
             </c:if>
             <br>
@@ -62,25 +62,16 @@
                         <th>글번호</th>
                         <th>제목</th>
                         <th>작성자</th>
-                        <th>조회수</th>
                         <th>작성일</th>
-                        <th>첨부파일</th>
                     </tr>
                 </thead>
                 <tbody>
-	                <c:forEach items="${ list }" var="b">
-	                	
+	                <c:forEach items="${ list }" var="n">
 	                    <tr>
-	                        <td>${ b.boardNo }</td>
-	                        <td>${ b.boardTitle }</td>
-	                        <td>${ b.boardWriter }</td>
-	                        <td>${ b.count }</td>
-	                        <td>${ b.createDate }</td>
-	                        <td>
-	                        	<c:if test="${ not empty b.originName }" >
-	                        		★
-	                        	</c:if>
-	                        </td>
+	                        <td>${ n.noticeNo}</td>
+	                        <td>${ n.noticeTitle }</td>
+	                        <td>${ n.noticeWriter }</td>
+	                        <td>${ n.createDate }</td>
 	                    </tr>
 	                </c:forEach>
                 </tbody>
@@ -95,13 +86,13 @@
                     		<li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
                     	</c:when>
                     	<c:otherwise>
-                    		<li class="page-item"><a class="page-link" href="list.bo?cPage=${ pi.currentPage - 1 }">Previous</a></li>
+                    		<li class="page-item"><a class="page-link" href="list.no?cPage=${ pi.currentPage - 1 }">Previous</a></li>
                     	</c:otherwise>
                     </c:choose>
                     
                     
                     <c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
-                    	<li class="page-item"><a class="page-link" href="list.bo?cPage=${ p }">${ p }</a></li>
+                    	<li class="page-item"><a class="page-link" href="list.no?cPage=${ p }">${ p }</a></li>
                     </c:forEach>
                     
                     <c:choose>
@@ -109,7 +100,7 @@
                     		<li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
                     	</c:when>
                     	<c:otherwise>
-                    		<li class="page-item"><a class="page-link" href="list.bo?cPage=${ pi.currentPage + 1 }">Next</a></li>
+                    		<li class="page-item"><a class="page-link" href="list.no?cPage=${ pi.currentPage + 1 }">Next</a></li>
                     	</c:otherwise>
                     </c:choose>
                     
