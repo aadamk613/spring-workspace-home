@@ -60,7 +60,7 @@
 	                        	첨부파일 없음
 	                    </c:when>
 	                    <c:otherwise>
-	                     	<a href="${ b.changeName }" download="">${ b.originName }</a>
+	                     	<a href="${ b.changeName }" download="${ b.originName }">${ b.originName }</a>
 	                    </c:otherwise>
                     </c:choose>
                     
@@ -103,7 +103,7 @@
             <script>
             	function postFormSubmit(num){
             		if(num == 0){ // 수정하기 클릭 시
-            			$('#postForm').attr('action', 'update.bo').submit();
+            			$('#postForm').attr('action', 'updateForm.bo').submit();
             		}
             		else{ // 삭제하기 클릭 시
             			$('#postForm').attr('action', 'delete.bo').submit();

@@ -113,7 +113,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	</update>
 	
+	<update id="updateBoard" parameterType="board">
 	
+		UPDATE
+				BOARD
+			SET
+				BOARD_TITLE = #{boardTitle},
+				BOARD_CONTENT = #{boardContent},
+				ORIGIN_NAME = #{originName},
+				CHANGE_NAME =  #{changeName}
+			WHERE
+				BOARD_NO = #{boardNo}
+	
+	</update>
 	
 	
 	
