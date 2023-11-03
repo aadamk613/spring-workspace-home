@@ -9,9 +9,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result	column="BOARD_NO" 		property="boardNo" />
 	    <result	column="BOARD_TITLE" 	property="boardTitle" />
 	    <result	column="BOARD_WRITER" 	property="boardWriter" />
+	    <result	column="BOARD_CONTENT" 	property="boardContent" />
 	    <result	column="COUNT" 			property="count" />
 	    <result	column="CREATE_DATE" 	property="createDate" />
 	    <result	column="ORIGIN_NAME" 	property="originName" />
+	    <result	column="CHANGE_NAME" 	property="changeName" />
 	</resultMap>
 	
 	
@@ -40,8 +42,93 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				STATUS = 'Y'
 			ORDER BY
 				BOARD_NO DESC
-				
-	
 	
 	</select>
+	
+	<insert id="insertBoard" parameterType="board">
+		
+		INSERT
+		  INTO
+		  		BOARD
+		  		(
+		  		BOARD_NO, 
+		  		BOARD_TITLE, 
+		  		BOARD_CONTENT,
+		  		BOARD_WRITER, 
+		  		ORIGIN_NAME, 
+		  		CHANGE_NAME
+		  		)
+		VALUES
+				(
+				SEQ_BNO.NEXTVAL, 
+				#{boardTitle}, 
+				#{boardContent},
+				#{boardWriter}, 
+				#{originName},
+				#{changeName}
+				)
+	
+	</insert>
+	
+	<update id="increaseCount" parameterType="_int">
+		
+		UPDATE 
+				BOARD
+			SET
+				COUNT = COUNT + 1
+			WHERE
+				BOARD_NO = #{ boardNo }
+			AND
+				STATUS = 'Y'
+	
+	</update>
+	
+	<select id="selectBoard" parameterType="_int" resultMap="boardResultSet">
+	
+		SELECT 	
+				BOARD_NO,
+				BOARD_TITLE,
+				BOARD_WRITER,
+				BOARD_CONTENT,
+				CREATE_DATE,
+				ORIGIN_NAME,
+				CHANGE_NAME
+			FROM 
+				BOARD
+			WHERE
+				STATUS = 'Y'
+			AND
+				BOARD_NO = #{boardNo}
+	
+	</select>
+	
+	<update id="deleteBoard" parameterType="_int">
+		
+		UPDATE
+				BOARD
+			SET
+				STATUS = 'N'
+			WHERE
+				BOARD_NO = #{boardNo}
+	
+	</update>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 </mapper>

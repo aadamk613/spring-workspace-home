@@ -50,5 +50,28 @@
 		 	이 경우에는 xml파일로 설정을해서 등록 해야함!
 	 -->
 	
+	<interceptors>
+		<interceptor>
+			<mapping path="/myPage.me"/>
+			<mapping path="/enrollForm.bo"/>
+			<beans:bean class="com.kh.spring.common.interceptor.LoginInterceptor" id="LoginInterceptor" />
+		</interceptor>
+	</interceptors>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 </beans:beans>

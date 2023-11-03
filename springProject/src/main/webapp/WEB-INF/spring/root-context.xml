@@ -69,7 +69,11 @@
  	  <bean class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" id="bcyptPasswordEncoder" />
  	  -->
 	 	  
- 	 
+ 	 <!-- 파일 업로드 관련 빈 등록 -->
+ 	 <bean class="org.springframework.web.multipart.commons.CommonsMultipartResolver" id="multipartResolver" >
+ 	 	<property name="maxUploadSize" value="10000000" />
+ 	 	<property name="maxInMemorySize" value="100000000" />
+ 	 </bean>
 
 	
 </beans>
