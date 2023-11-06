@@ -10,14 +10,17 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
 import com.kh.spring.board.model.service.BoardService;
 import com.kh.spring.board.model.vo.Board;
+import com.kh.spring.board.model.vo.Reply;
 import com.kh.spring.common.model.vo.PageInfo;
 import com.kh.spring.common.template.Pagination;
 
@@ -238,6 +241,18 @@ public class BoardController {
 			return "common/errorPage";
 		}
 		
+	}
+	@ResponseBody
+	@RequestMapping(value="rlist.do", produces="application/json; charset=UTF-8")
+	public String ajaxSelectReplyList(int bno) {
+		
+		return new Gson().toJson(boardService.selectReplyList(bno));
+	}
+	
+	@ResponseBody
+	@GetMapping(value="rinsert.do")
+	public String ajaxInsertReply(Reply r) {
+		return boardService.insertReply(r) > 0 ? "success" : "fail";
 	}
 	
 	

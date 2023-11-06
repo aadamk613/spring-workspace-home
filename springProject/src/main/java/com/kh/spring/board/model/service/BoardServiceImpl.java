@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.spring.board.model.dao.BoardDao;
 import com.kh.spring.board.model.vo.Board;
+import com.kh.spring.board.model.vo.Reply;
 import com.kh.spring.common.model.vo.PageInfo;
 
 @Service
@@ -58,6 +59,16 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public int updateBoard(Board b) {
 		return boardDao.updateBoard(sqlSession, b);
+	}
+
+	@Override
+	public ArrayList<Reply> selectReplyList(int boardNo) {
+		return boardDao.selectReplyList(sqlSession, boardNo);
+	}
+
+	@Override
+	public int insertReply(Reply r) {
+		return boardDao.insertReply(sqlSession, r);
 	}
 
 }

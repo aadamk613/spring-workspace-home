@@ -1,5 +1,6 @@
 package com.kh.spring.member.model.dao;
 
+import org.apache.ibatis.session.SqlSession;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -23,5 +24,11 @@ public class MemberDao {
 	
 	public int deleteMember(SqlSessionTemplate sqlSession, String userId) {
 		return sqlSession.update("memberMapper.deleteMember", userId);
+	}
+	
+	public int idCheck(SqlSessionTemplate sqlSession, String checkId) {
+		int count = sqlSession.selectOne("memberMapper.idCheck", checkId);
+		System.out.println(count);
+		return sqlSession.selectOne("memberMapper.idCheck", checkId);
 	}
 }

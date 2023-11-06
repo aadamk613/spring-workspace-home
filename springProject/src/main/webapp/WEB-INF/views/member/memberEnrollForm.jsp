@@ -36,11 +36,14 @@
             <h2>회원가입</h2>
             <br>
 
-            <form action="insert.me" method="post">
+            <form action="insert.me" method="post" id="enroll-form">
                 <div class="form-group">
                     <label for="userId">* ID : </label>
                     <input type="text" class="form-control" id="userId" placeholder="Please Enter ID" name="userId" required> <br>
-
+                    <div id="checkResult" style="color">
+                    
+                    </div>
+                    
                     <label for="userPwd">* Password : </label>
                     <input type="password" class="form-control" id="userPwd" placeholder="Please Enter Password" name="userPwd" required> <br>
 
@@ -70,12 +73,55 @@
                 </div> 
                 <br>
                 <div class="btns" align="center">
-                    <button type="submit" class="btn btn-primary">회원가입</button>
+                    <button type="submit" class="disabled btn btn-primary">회원가입</button>
                     <button type="reset" class="btn btn-danger">초기화</button>
                 </div>
             </form>
         </div>
         <br><br>
+        
+        <script>
+        	$(function(){
+        		const $idInput = $('.form-group #userId');
+        		const $checkResult = $('#checkResult');
+        		const $enrollFormSubmit = $('#enroll-form:submit');
+        		
+        		
+        		$idInput.keyup(function(){
+        			//console.log($idInput.val());
+					
+        			// 최소 다섯 글자 이상으로 입력했을 때만 AJAX요청을 보내서 중복체크
+        			if($idInput.val().length >= 5){
+        				$.ajax({
+        					
+        					url : 'idCheck.me',
+        					data : {checkId : $idInput.val()},
+        					success : function(result){
+        						console.log(result);
+        						if(result.substr(4) == 'N'){
+        							$checkResult.show().css('color', 'skyblue').text('중복된 아이디가 존재합니다.');
+        							$enrollFormSubmit.removeAttr('disabled', true);
+        						}
+        						else{ // 사용가능
+        							$checkResult.show().css('color', 'skyblue').text('사용가능합니다');
+        							$enrollFormSubmit.removeAttr('disabled');
+        						}
+        					},
+        					error : function(){
+        						console.log('아이디 중복체크 통신 실패');
+        					}
+        				});
+        			}
+        			
+        			else {
+        				$checkResult.hide();
+        				$enrollFormSubmit.attr('disabled');
+        			}
+        			
+        		})
+        	})
+        	
+        </script>
 
     </div>
 

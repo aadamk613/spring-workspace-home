@@ -16,7 +16,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	    <result	column="CHANGE_NAME" 	property="changeName" />
 	</resultMap>
 	
-	
 	<select id="selectListCount" resultType="_int">
 		SELECT
 				COUNT(*)
@@ -127,9 +126,63 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	</update>
 	
+	<select id="selectReplyList" resultType="reply" parameterType="_int"> 
 	
+		SELECT
+				REPLY_NO replyNo, 
+				REPLY_WRITER replyWriter,
+				REPLY_CONTENT replyContent,
+				TO_CHAR(CREATE_DATE, 'YYYY-MM-DD') AS "createDate"
+			FROM
+			 	REPLY
+			WHERE
+				STATUS = 'Y'
+			AND
+				REF_BNO = #{boardNo}
+			ORDER BY
+				REPLY_NO DESC
+	</select>
 	
+	<insert id="insertReply" parameterType="reply">
+		
+		INSERT 
+			INTO
+				REPLY
+				(
+				REPLY_NO, 
+				REPLY_CONTENT, 
+				REPLY_WRITER, 
+				REF_BNO
+				)
+			VALUES
+				(
+				SEQ_RNO.NEXTVAL,
+				#{replyContent},
+				#{replyWriter},
+				#{refBoardNo}
+				)
+	</insert>
 	
+	<select id="selectTopBoard" resultMap="boardResultSet">
+		SELECT A.*
+		    FROM        
+		        (SELECT
+		                BOARD_NO, 
+		                BOARD_TITLE, 
+		                BOARD_WRITER, 
+		                COUNT, 
+		                TO_CHAR(CREATE_DATE, 'YYYY/MM/DD') AS CREATE_DATE,
+		                ORIGIN_NAME
+		            FROM 
+		                BOARD
+		            WHERE
+		                STATUS = 'Y'
+		            ORDER BY
+		                COUNT DESC) A
+		    WHERE
+		        ROWNUM BETWEEN 1 AND 5
+	
+	</select>
 	
 	
 	

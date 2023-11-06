@@ -3,6 +3,7 @@ package com.kh.spring.board.model.service;
 import java.util.ArrayList;
 
 import com.kh.spring.board.model.vo.Board;
+import com.kh.spring.board.model.vo.Reply;
 import com.kh.spring.common.model.vo.PageInfo;
 
 
@@ -35,8 +36,10 @@ public interface BoardService {
 	// -------------------------------
 	
 	// 댓글 목록 조회
+	ArrayList<Reply> selectReplyList(int boardNo);
 	
 	// 댓글 작성
+	int insertReply(Reply r);
 	
 	// 메인 페이지 구성
 	

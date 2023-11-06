@@ -112,20 +112,36 @@
             
             </script>
 
-            <!-- 댓글 기능은 나중에 ajax 배우고 나서 구현할 예정! 우선은 화면구현만 해놓음 -->
+            <!-- 댓글 기능은 나중에 AJAX 배우고 나서 구현할 예정! 우선은 화면구현만 해놓음 -->
             <table id="replyArea" class="table" align="center">
                 <thead>
+                	<!-- 로그인 전 -->
+                	<c:choose>
+	                	<c:when test="${ empty sessionScope.loginUser }">
+	                    <tr>
+	                        <th colspan="2">
+	                            <textarea class="form-control" readonly cols="55" rows="2" style="resize:none; width:100%;">로그인 후 이용가능합니다.</textarea>
+	                        </th>
+	                        <th style="vertical-align:middle"><button class="btn btn-secondary">등록하기</button></th>
+	                    </tr>
+	                    </c:when>
+	                    <c:otherwise>
+	                    <!-- 로그인 전 -->
+	                    <tr>
+	                        <th colspan="2">
+	                            <textarea class="form-control" name="" id="content" cols="55" rows="2" style="resize:none; width:100%;"></textarea>
+	                        </th>
+	                        <th style="vertical-align:middle"><button class="btn btn-secondary" onclick="addRely();">등록하기</button></th>
+	                    </tr>
+						</c:otherwise>                    
+                    </c:choose>
+                    
                     <tr>
-                        <th colspan="2">
-                            <textarea class="form-control" name="" id="content" cols="55" rows="2" style="resize:none; width:100%;"></textarea>
-                        </th>
-                        <th style="vertical-align:middle"><button class="btn btn-secondary">등록하기</button></th>
-                    </tr>
-                    <tr>
-                        <td colspan="3">댓글(<span id="rcount">3</span>)</td>
+                        <td colspan="3">댓글(<span id="rcount">0</span>)</td>
                     </tr>
                 </thead>
                 <tbody>
+                	<!-- 
                     <tr>
                         <th>user02</th>
                         <td>ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ꿀잼</td>
@@ -141,12 +157,78 @@
                         <td>댓글입니다!!</td>
                         <td>2023-03-10</td>
                     </tr>
+                     -->
+                     
                 </tbody>
             </table>
         </div>
         <br><br>
 
     </div>
+    
+    <script>
+    
+    function addRely(){ // 댓글 작성용 함수
+    	
+    	if($('#content').val().trim() != ''){
+    		
+			$.ajax({
+				
+				url: 'rinsert.do',
+				data: {
+					refBoardNo : ${b.boardNo},
+					replyContent : $('#content').val(),
+					replyWriter : '${sessionScope.loginUser.userId}'
+				},
+				success: function(result){
+					console.log(result);
+					
+					if(result == 'success'){
+						$('#content').val('');					
+						selectReplyList();
+					}
+				},
+				error: function(){
+					console.log('댓글 작성에 실패했습니다');
+				}
+			});	
+    	}
+    	else{
+    		alert('댓글 내용을 입력해주세요');
+    	}
+    }
+
+	$(function(){
+		selectReplyList();
+	});
+    
+    function selectReplyList(){
+    	$.ajax({
+    		url: 'rlist.do',
+    		data: {bno : ${b.boardNo}},
+    		success: function(list){
+    			console.log(list);
+    			
+    			let value = '';
+    			for(let i in list){
+    				
+    				value += '<tr>'
+    				 	  + '<td>' + list[i].replyWriter + '</td>'
+    				 	  + '<td>' + list[i].replyContent + '</td>'
+    				 	  + '<td>' + list[i].createDate + '</td>'
+    				 	  + '</tr>';
+    				 	
+    			}
+    			$('#replyArea tbody').html(value);
+    			$('#rcount').text(list.length);
+    		},
+    		error: function(){
+    			console.log('댓글 불러오기 실패');
+    		}
+    	})
+    }
+    
+    </script>
     
     <jsp:include page="../common/footer.jsp" />
     
