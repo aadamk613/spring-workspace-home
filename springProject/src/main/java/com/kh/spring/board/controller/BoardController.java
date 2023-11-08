@@ -197,7 +197,6 @@ public class BoardController {
 	// @GetMapping도 있음
 	@RequestMapping("updateForm.bo")
 	public ModelAndView updateBoard(int bno, ModelAndView mv) {
-		
 		mv.addObject("b", boardService.selectBoard(bno)).setViewName("board/boardUpdateForm");
 		return mv;
 	}
@@ -253,6 +252,13 @@ public class BoardController {
 	@GetMapping(value="rinsert.do")
 	public String ajaxInsertReply(Reply r) {
 		return boardService.insertReply(r) > 0 ? "success" : "fail";
+	}
+	
+	
+	@ResponseBody
+	@GetMapping(value="topList.do", produces="application/json; charset=UTF-8")
+	public String ajaxTopBoard() {
+		return new Gson().toJson(boardService.selectTopBoard());
 	}
 	
 	

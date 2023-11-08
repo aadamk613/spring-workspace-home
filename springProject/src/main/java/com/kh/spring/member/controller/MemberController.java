@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -335,7 +336,7 @@ public class MemberController { // RequestMapping타입의 애노테이션을 �
 		// return memberService.idCheck(checkId) > 0 ? "NNNNN" : "NNNNY";
 	}
 	
-	
+
 	
 	
 	

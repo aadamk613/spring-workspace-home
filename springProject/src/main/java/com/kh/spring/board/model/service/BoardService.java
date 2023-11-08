@@ -42,5 +42,5 @@ public interface BoardService {
 	int insertReply(Reply r);
 	
 	// 메인 페이지 구성
-	
+	ArrayList<Board> selectTopBoard();
 }

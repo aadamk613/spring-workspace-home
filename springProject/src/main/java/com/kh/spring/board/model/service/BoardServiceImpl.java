@@ -6,12 +6,14 @@ import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import com.kh.spring.board.model.dao.BoardDao;
 import com.kh.spring.board.model.vo.Board;
 import com.kh.spring.board.model.vo.Reply;
 import com.kh.spring.common.model.vo.PageInfo;
 
+@EnableTransactionManagement
 @Service
 public class BoardServiceImpl implements BoardService{
 
@@ -71,4 +73,11 @@ public class BoardServiceImpl implements BoardService{
 		return boardDao.insertReply(sqlSession, r);
 	}
 
+	//@Transactional 로 묶어주면 안에 있는 트랜잭션을 묶어 줌
+	@Override
+	public ArrayList<Board> selectTopBoard() {
+		return boardDao.selectTopBoard(sqlSession);
+	}
+
+	
 }

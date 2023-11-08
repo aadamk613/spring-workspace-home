@@ -18,7 +18,7 @@
 		<a href="list.bo" style="float:right; color:lightgray;">더보기>></a>
 		<br><br>
 		
-		<table>
+		<table id="boardList" class="table table-hover" align="center">
 			<thead>
 				<tr>
 					<td>글번호</td>
@@ -46,11 +46,50 @@
 		$(function(){
 			topBoardList();
 			
+			/*
+			$('#boardList > tbody > tr').click(function(){
+				
+				location.href = 'detail.bo?bno' + $(this).children().eq(0).text();
+			})
+			동적으로 만들어진 요소에 이벤트 부여
+			*/
+			$(document).on('click', '#boardList > tbody > tr', function(){
+				location.href = 'detail.bo?boardNo=' + $(this).children().eq(0).text();
+			})
+			
 		})
 		
 		function topBoardList(){
 			
-			
+			$.ajax({
+				url : 'topList.do',
+				success: function(result){
+					console.log(result);
+					
+					let value = '';
+					for(let i in result){
+						value += '<tr>'
+						 	  + '<td>' + result[i].boardNo + '</td>'
+						 	 + '<td>' + result[i].boardTitle + '</td>'
+						 	 + '<td>' + result[i].boardWriter + '</td>'
+						 	 + '<td>' + result[i].count + '</td>'
+						 	 + '<td>' + result[i].createDate + '</td>'
+						 	 + '<td>'; 
+						 	 
+						 	 if(result[i].originName != null) {
+						 		 value += '★';
+						 	 }
+						 			 
+						 	 + '</td>'
+						 	 + '</tr>';
+					}
+					
+					$('#boardList>tbody').html(value);
+				},
+				error: function(){
+					console.log('실패');
+				}
+			})
 			
 		}
 	
