@@ -10,7 +10,7 @@
 <body>
 
 	<h1>작물 키우기 날씨 보기</h1>
-	<input placeholder="페이지 번호를 입력해주세요" id="pageNo" value="1" >
+	<input type="text" placeholder="페이지 번호를 입력해주세요" id="pageNo" value="1" >
 	<button onclick="cropsWt();">클릭</button>
 	
 	<table>

@@ -49,10 +49,6 @@ public class ForwordController {
 		model.addAttribute("lon", lon);
 		model.addAttribute("name", name);
 		
-		System.out.println(lat);
-		System.out.println(lon);
-		System.out.println(name);
-		
 		return "shelter/shelterMap";
 	}
 	
