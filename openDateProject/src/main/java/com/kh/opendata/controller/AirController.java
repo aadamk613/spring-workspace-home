@@ -60,8 +60,6 @@ public class AirController {
 			responseText += line;
 		}
 		
-		
-		
 		br.close();
 		urlConnection.disconnect();
 		return responseText;

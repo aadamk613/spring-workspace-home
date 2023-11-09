@@ -62,7 +62,7 @@
                     <label for="Female">여자</label> &nbsp;&nbsp;
                     
                     <script>
-                    	$(function(){
+                    	$(() => {
                     		// gender필드에 값이 없다!
                     		// 실제 DB의 컬럼에 담긴 값은 null이지만
                     		// EL구문의 특성 상 값이 없을 경우 빈 문자열이 출력되므로 빈 문자열과 비교해야 함!

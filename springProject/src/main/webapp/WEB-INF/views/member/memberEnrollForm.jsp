@@ -87,7 +87,7 @@
         		const $enrollFormSubmit = $('#enroll-form:submit');
         		
         		
-        		$idInput.keyup(function(){
+        		$idInput.keyup(() => {
         			//console.log($idInput.val());
 					
         			// 최소 다섯 글자 이상으로 입력했을 때만 AJAX요청을 보내서 중복체크
@@ -96,7 +96,7 @@
         					
         					url : 'idCheck.me',
         					data : {checkId : $idInput.val()},
-        					success : function(result){
+        					success : result => {
         						console.log(result);
         						if(result.substr(4) == 'N'){
         							$checkResult.show().css('color', 'skyblue').text('중복된 아이디가 존재합니다.');
@@ -107,7 +107,7 @@
         							$enrollFormSubmit.removeAttr('disabled');
         						}
         					},
-        					error : function(){
+        					error : () => {
         						console.log('아이디 중복체크 통신 실패');
         					}
         				});

@@ -45,7 +45,7 @@
 	
 	<script>
 		$(function(){
-			$('#btn1').click(function(){
+			$('#btn1').click(() => {
 				/*
 				$.ajax({
 					url: 'air.do',

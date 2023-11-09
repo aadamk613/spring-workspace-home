@@ -77,9 +77,9 @@
             <br>
 
 			<script>
-				$(function(){
+				$(() => {
 					
-					$('#boardList > tbody > tr').click(function(){
+					$('#boardList > tbody > tr').click(() => {
 						
 					})
 					
@@ -180,7 +180,7 @@
 					replyContent : $('#content').val(),
 					replyWriter : '${sessionScope.loginUser.userId}'
 				},
-				success: function(result){
+				success: result => {
 					console.log(result);
 					
 					if(result == 'success'){
@@ -188,7 +188,7 @@
 						selectReplyList();
 					}
 				},
-				error: function(){
+				error: () => {
 					console.log('댓글 작성에 실패했습니다');
 				}
 			});	
@@ -198,7 +198,7 @@
     	}
     }
 
-	$(function(){
+	$(() => {
 		selectReplyList();
 	});
     
@@ -206,7 +206,7 @@
     	$.ajax({
     		url: 'rlist.do',
     		data: {bno : ${b.boardNo}},
-    		success: function(list){
+    		success: list => {
     			console.log(list);
     			
     			let value = '';
@@ -222,7 +222,7 @@
     			$('#replyArea tbody').html(value);
     			$('#rcount').text(list.length);
     		},
-    		error: function(){
+    		error: () => {
     			console.log('댓글 불러오기 실패');
     		}
     	})
