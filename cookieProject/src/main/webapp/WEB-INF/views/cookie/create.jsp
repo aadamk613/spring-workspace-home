@@ -4,9 +4,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>진주시 맛집</title>
+<title>Insert title here</title>
 </head>
 <body>
-
+	
+	<h1>쿠키</h1>
 </body>
 </html>

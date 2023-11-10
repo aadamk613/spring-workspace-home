@@ -1,5 +1,6 @@
 package com.kh.spring.member.model.service;
 
+import com.kh.spring.member.model.vo.CertVO;
 import com.kh.spring.member.model.vo.Member;
 
 public interface MemberService {
@@ -25,7 +26,9 @@ public interface MemberService {
 	// ---------------------------------
 	
 	// 메일 인증 서비스 
-	
+	void sendMail(CertVO certVo);
+
+	boolean validate(CertVO certVo);
 	
 	
 

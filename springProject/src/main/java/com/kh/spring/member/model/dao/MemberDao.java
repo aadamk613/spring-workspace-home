@@ -4,6 +4,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.kh.spring.member.model.vo.CertVO;
 import com.kh.spring.member.model.vo.Member;
 
 // Repository : 저장소
@@ -27,8 +28,20 @@ public class MemberDao {
 	}
 	
 	public int idCheck(SqlSessionTemplate sqlSession, String checkId) {
-		int count = sqlSession.selectOne("memberMapper.idCheck", checkId);
-		System.out.println(count);
 		return sqlSession.selectOne("memberMapper.idCheck", checkId);
+	}
+
+	public Object insertSecret(SqlSessionTemplate sqlSession, CertVO certVo) {
+		
+		return sqlSession.insert("memberMapper.insertSecret", certVo);
+	}
+
+	public boolean vaildate(SqlSessionTemplate sqlSession, CertVO certVo) {
+		CertVO result = sqlSession.selectOne("memberMapper.vaildate", certVo);
+		return result != null;
+	}
+
+	public void deleteCert(SqlSessionTemplate sqlSession, CertVO certVo) {
+		sqlSession.delete("memberMapper.deleteCert", certVo);
 	}
 }

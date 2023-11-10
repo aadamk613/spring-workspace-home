@@ -101,5 +101,34 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	</select>
 	
+	<insert id="insertSecret" parameterType="com.kh.spring.member.model.vo.CertVO">
 	
+		INSERT INTO CERT(WHO, SECRET, WHEN)
+		VALUES (#{who}, #{secret}, sysdate)
+	
+	</insert>
+	
+	<select id="vaildate" 
+			parameterType="com.kh.spring.member.model.vo.CertVO" 
+			resultType="com.kh.spring.member.model.vo.CertVO">
+	
+		SELECT 
+				WHO, 
+				SECRET, 
+				WHEN
+			FROM 
+				CERT
+			WHERE 
+				WHO = #{who}
+			AND
+				SECRET = #{secret}
+			AND
+				WHEN BETWEEN SYSDATE - 3/24/60 AND SYSDATE
+	</select>
+	
+	<delete id="deleteCert" parameterType="com.kh.spring.member.model.vo.CertVO">
+
+		DELETE CERT WHERE WHO = #{who} and SECRET = #{secret}
+		
+	</delete>
 </mapper>

@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.spring.member.model.dao.MemberDao;
+import com.kh.spring.member.model.vo.CertVO;
 import com.kh.spring.member.model.vo.Member;
 
 // @Componet == bean으로 등록하겠다.
@@ -49,5 +50,19 @@ public class MemberServiceImpl implements MemberService{
 	public int idCheck(String checkId) {
 		return memberDao.idCheck(sqlSession, checkId);
 	}
+	@Override
+	public void sendMail(CertVO certVo) {
+		memberDao.insertSecret(sqlSession, certVo);
+	}
+	@Override
+	public boolean validate(CertVO certVo) {
+		boolean result = memberDao.vaildate(sqlSession, certVo);
+		if(result != false) {
+			memberDao.deleteCert(sqlSession, certVo);
+		}
+		return result;
+	}
+	
+	
 
 }

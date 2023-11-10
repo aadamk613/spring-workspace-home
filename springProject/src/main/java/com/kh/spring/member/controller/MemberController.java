@@ -1,17 +1,29 @@
 package com.kh.spring.member.controller;
 
+import java.text.DecimalFormat;
+import java.text.Format;
+import java.util.Random;
+
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.spring.member.model.service.MemberService;
+import com.kh.spring.member.model.vo.CertVO;
 import com.kh.spring.member.model.vo.Member;
 
 @Controller
@@ -35,6 +47,9 @@ public class MemberController { // RequestMapping타입의 애노테이션을 �
 	
 	@Autowired
 	private BCryptPasswordEncoder bcryptPasswordEncoder;
+	
+	@Autowired
+	private JavaMailSender sender;
 	
 	/*
 	@RequestMapping(value="login.me")
@@ -142,11 +157,6 @@ public class MemberController { // RequestMapping타입의 애노테이션을 �
 	 * 포워딩할 응답 뷰로 전달하고자 하는 데이터를 맵형식(key-value)으로 담을 수 있는 영역
 	 * Model객체는 requestScope
 	 * 단, setAttribute가 아닌 addAttribute메소드를 호출해야함
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
 	 */
 	
 	/*
@@ -223,9 +233,7 @@ public class MemberController { // RequestMapping타입의 애노테이션을 �
 			// model.addAttribute
 			mv.addObject("errorMsg", "로그인 실패");
 			mv.setViewName("common/errorPage");
-			
 		}
-		
 		return mv;
 	}
 	
@@ -336,7 +344,58 @@ public class MemberController { // RequestMapping타입의 애노테이션을 �
 		// return memberService.idCheck(checkId) > 0 ? "NNNNN" : "NNNNY";
 	}
 	
-
+	@GetMapping("inputmail")
+	public String inputMail() {
+		return "member/input";
+	}
+	
+	@PostMapping("mail")
+	public String mail(String email, HttpServletRequest request) throws MessagingException {
+		
+		MimeMessage message = sender.createMimeMessage();
+		MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+		
+		// 지금 요청을 보낸 ip주소
+		String ip = request.getRemoteAddr();
+		
+		Random r = new Random();
+		int i = r.nextInt(100000);
+		Format f = new DecimalFormat("000000");
+		String secret = f.format(i);
+		
+		CertVO certVo = CertVO.builder()
+							  .who(ip)
+							  .secret(secret)
+							  .build();
+		memberService.sendMail(certVo);
+		
+		// 생성자를 호출하지 않고도 원하는 필드에 원하는 값을 넣을 수 있음
+		helper.setTo(email);
+		helper.setSubject("인증번호 보내드립니다.");
+		helper.setText("인증번호 : " + secret);
+		
+		sender.send(message);
+		
+		return "redirect:checkPage";
+	}
+	
+	@RequestMapping("checkPage")
+	public String checkPage() {
+		return "member/check";
+	}
+	
+	@ResponseBody
+	@PostMapping("check")
+	public String checkCode(String secret, HttpServletRequest request) {
+		CertVO certVo = CertVO.builder()
+							  .who(request.getRemoteAddr())
+							  .secret(secret)
+							  .build();
+		System.out.println(secret);
+		boolean result = memberService.validate(certVo);
+		
+		return "result:" + result;
+	}
 	
 	
 	

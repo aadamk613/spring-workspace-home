@@ -11,6 +11,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 @Controller
 public class CropsController {
 
@@ -21,9 +24,9 @@ public class CropsController {
 		StringBuilder url = new StringBuilder("http://apis.data.go.kr/1360000/FmlandWthrInfoService/getDayStatistics"); /*URL*/
 		url.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "="); /*Service Key*/
 		url.append(AirController.SERVICEKEY);
-		url.append("&" + URLEncoder.encode("pageNo","UTF-8") + "=" + URLEncoder.encode("1", "UTF-8")); /*페이지번호*/
+		url.append("&" + URLEncoder.encode("pageNo","UTF-8") + "=" + URLEncoder.encode(pageNo, "UTF-8")); /*페이지번호*/
 		url.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode("10", "UTF-8")); /*한 페이지 결과 수*/
-		url.append("&" + URLEncoder.encode("dataType","UTF-8") + "=" + URLEncoder.encode("XML", "UTF-8")); /*요청자료형식(XML/JSON)*/
+		url.append("&" + URLEncoder.encode("dataType","UTF-8") + "=" + URLEncoder.encode("JSON", "UTF-8")); /*요청자료형식(XML/JSON)*/
 		url.append("&" + URLEncoder.encode("ST_YMD","UTF-8") + "=" + URLEncoder.encode("20161201", "UTF-8")); /*일통계 시작 날짜(YYYYMMDD)*/
         url.append("&" + URLEncoder.encode("ED_YMD","UTF-8") + "=" + URLEncoder.encode("20171201", "UTF-8")); /*일통계 종료 날짜(YYYYMMDD)*/
         url.append("&" + URLEncoder.encode("AREA_ID","UTF-8") + "=" + URLEncoder.encode("4122000000", "UTF-8")); /*지역 아이디(활용가이드 하단첨부 참고)*/
@@ -42,7 +45,7 @@ public class CropsController {
 		url += "&pageNo=" + pageNo;
 		*/
         
-		System.out.println("url : " + url);
+		//System.out.println("url : " + url);
 		
 		URL requestUrl = new URL(url.toString());
 		HttpURLConnection urlConnection = (HttpURLConnection)requestUrl.openConnection();
@@ -54,6 +57,9 @@ public class CropsController {
 		while((line = br.readLine()) != null) {
 			responseText += line;
 		}
+		
+		JsonObject totalObj = JsonParser.parseString(responseText).getAsJsonObject();
+		System.out.println(totalObj);
 		
 		System.out.println("responseText " + responseText);
 		

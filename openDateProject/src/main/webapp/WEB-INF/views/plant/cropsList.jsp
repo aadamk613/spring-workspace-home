@@ -13,24 +13,32 @@
 	<input type="text" placeholder="페이지 번호를 입력해주세요" id="pageNo" value="1" >
 	<button onclick="cropsWt();">클릭</button>
 	
-	<table>
+	<table border="1 solid green">
 		<thead>
 			<tr>
-				<th>이름</th>
-				<th>물주는 주기</th>
-				<th>광도</th>
-				<th></th>
-				<th></th>
+				<th>작물명</th>
+				<th>지역 이름</th>
+				<th>월 최고기온</th>
+				<th>월 최저기온</th>
+				<th>월 평균상대습도</th>
+				<th>월 최저상대습도</th>
+				<th>월 강수량</th>
+				<th>지역 평균풍속</th>
+				<th>월 누적일조시간</th>
 			</tr>
 		</thead>
 		
 		<tbody>
 			<tr>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
+				<td>작물명</td> <!-- areaName -->
+				<td>지역 이름</td> <!--  -->
+				<td>월 최고기온</td> <!--  -->
+				<td>월 최저기온</td> <!--  -->
+				<td>월 평균상대습도</td> <!--  -->
+				<td>월 최저상대습도</td> <!--  -->
+				<td>월 강수량</td> <!--  -->
+				<td>지역 평균풍속</td> <!--  -->
+				<td>월 누적일조시간</td> <!--  -->
 			</tr>
 		</tbody>
 	</table>
