@@ -13,6 +13,7 @@
 	
 	지역 : 
 	<select id="location">
+		<option>서울</option>
 		<option>경기</option>
 		<option>부산</option>
 		<option>강원</option>
@@ -20,6 +21,8 @@
 		<option>충남</option>
 		<option>경남</option>
 		<option>경북</option>
+		<option>전남</option>
+		<option>전북</option>
 	</select>
 	
 	<button id="btn1">해당 지역 대기오염정보</button>
@@ -38,15 +41,14 @@
 			</tr>
 		</thead>
 		<tbody>
-
 		</tbody>
-	
 	</table>
 	
 	<script>
 		$(function(){
 			$('#btn1').click(() => {
 				/*
+				xml로 요청 받았을 때
 				$.ajax({
 					url: 'air.do',
 					data: {location : $('#location').val()},
@@ -93,7 +95,7 @@
 					data : {location : $('#location').val()},
 					success : data => {
 						// jQuery에서의 find메소드 : 기준이되는 요소의 하위요소들 중 특정 요소를 찾을 때 사용(HTML, XML)
-						// console.log(data.find('item'));
+						 console.log(data.find('item'));
 						//console.log($(data).find('item'));
 						
 						// XML형식의 응답데이터를 받았을 때

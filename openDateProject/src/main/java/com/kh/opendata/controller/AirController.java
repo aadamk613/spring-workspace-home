@@ -48,7 +48,7 @@ public class AirController {
 		url += "&sidoName=" + URLEncoder.encode(location, "UTF-8");
 		url += "&returnType=xml";
 		url += "&numOfRows=20";
-		
+
 		URL requestUrl = new URL(url);
 		HttpURLConnection urlConnection = (HttpURLConnection)requestUrl.openConnection();
 		urlConnection.setRequestMethod("GET");
@@ -63,7 +63,6 @@ public class AirController {
 		br.close();
 		urlConnection.disconnect();
 		return responseText;
-				
 	}
 	
 }
