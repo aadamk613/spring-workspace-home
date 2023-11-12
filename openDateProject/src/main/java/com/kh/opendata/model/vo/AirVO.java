@@ -9,6 +9,7 @@ public class AirVO {
 	private String pm10Value; // 미세먼지 농도
 	private String o3Value; // 오존농도
 	private String khaiValue; // 통합 대기환경 수치
+	
 	public AirVO() {
 		super();
 	}
@@ -53,6 +54,5 @@ public class AirVO {
 		return "AirVO [stationName=" + stationName + ", dataTime=" + dataTime + ", so2Value=" + so2Value
 				+ ", pm10Value=" + pm10Value + ", o3Value=" + o3Value + ", khaiValue=" + khaiValue + "]";
 	}
-	
 	
 }	
