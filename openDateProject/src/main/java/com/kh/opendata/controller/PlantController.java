@@ -6,26 +6,27 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+@Controller
 public class PlantController {
 
-	
+	static final String SERVICEKEY = "20231110TDYFKBQYDDNBRFX8VRFXW";
 	@ResponseBody
-	@RequestMapping(value="air.do", produces="text/html; charset=UTF-8")
+	@RequestMapping(value="plant.do", produces="application/json; charset=UTF-8")
 	public String airPollution(String cntntsNo) throws IOException {
 		
 		String url = "http://api.nongsaro.go.kr/service/garden/gardenDtl?";
-		url += "apiKey=" + AirController.SERVICEKEY;
-		url += "&cntntsNo=";
-		url += cntntsNo;
+		url += "apiKey=" + SERVICEKEY;
+		url += "&cntntsNo=1";
 		
+		System.out.println(url);
 		URL requestUrl = new URL(url);
 		HttpURLConnection urlConnection = (HttpURLConnection)requestUrl.openConnection();
 		urlConnection.setRequestMethod("GET");
 		BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-		
 		String responseText = "";
 		String line;
 		while((line = br.readLine()) != null) {
@@ -35,6 +36,7 @@ public class PlantController {
 		System.out.println(responseText);
 		br.close();
 		urlConnection.disconnect();
+		System.out.println(responseText);
 		return responseText;
 				
 	}

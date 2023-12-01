@@ -15,41 +15,45 @@ import com.kh.opendata.model.vo.AirVO;
 
 public class AirPollutionJavaApp {
 
+	// 데이터의 변동이 안 일어나도록 static final로 servicekey 빼놓음
 	static final String SERVICEKEY = "URVZtGWbCxrS0aRaW5B9IIihfxuygs0SyeQ2xfz1xlyLXGKBEr4lADwqNSKV0ldhG1%2BO0NTJjLWjhARp8LAruA%3D%3D";
 	
 	public static  void main(String[] args) throws IOException{
 		
 		// OpenAPI서버로 요청
-		// url만들기!
-		String url = "https://apis.data.go.kr/B552584/ArpltnInforInqireSvc/getCtprvnRltmMesureDnsty";
+		// url만들기! => 필수 파라미터를 꼭 넣어서 쿼리스트링을 만들어주자~
+		String url = "https://apis.data.go.kr/B552584/ArpltnInforInqireSvc/getCtprvnRltmMesureDnsty"; // == Call Back URL적으면 됨
 		url += "?serviceKey=" + SERVICEKEY;
-		url += "&sidoName=" + URLEncoder.encode("서울", "UTF-8");
+		url += "&sidoName=" + URLEncoder.encode("서울", "UTF-8"); 
+		// 한글 데이터를 요청 보낼 때는 인코딩을 해주어야한다 java.net패키지에 있는 URLEncoder클래스의 encode메소드 사용
 		url += "&returnType=json";
 		// json은 응답데이터가 한 줄로 온다 => responseText를 br.readLine()으로 읽으면된다
 		
-		System.out.println(url);
-		
 		// 자바코드로 요청 해야함!!
-		// **HttpURLConnection 객체를 활용해서 OpenAPI요청 해보기
+		// ** HttpURLConnection 객체를 활용해서 OpenAPI요청 해보기 **
 		// 1. 요청하고자 하는 url을 전달하면서 java.net.URL객체 생성
 		URL requestUrl = new URL(url);
 		// 2. 1번과정으로 생성된 URL객체를 가지고 HttpURLConnection객체 생성
+		// openConnection반환형은 URLConnection임, HttpURLConnection은 URLConnection의 자식 클래스이기 때문에 타입을 바꿔줌
 		HttpURLConnection urlConnection = (HttpURLConnection)requestUrl.openConnection();
 		// 3. 요청에 필요한 Header설정
 		urlConnection.setRequestMethod("GET");
-		// 4. 해당 OpenAPI서버로 스트림을 연결해서 입력 데이터 읽어오기 // 버퍼리더(BufferedReader)는 바이트 보조 스트림이기 때문에 그걸 2바이트 스트림으로 바꿔주는 보조스트림(InputStreamReader)을 또 써야한다
+		// 4. 해당 OpenAPI서버로 스트림을 연결해서 입력 데이터 읽어오기 
+		// 버퍼리더(BufferedReader)는 2byte 문자 보조 스트림이기 때문에 
+		// 1byte스트림인 urlConnection의 getInputStream()을 2바이트 스트림으로 바꿔주는 보조스트림(InputStreamReader)을 또 써야한다
 		BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-			
-		String responseText = "";
+		
 		/*
+		XML파일로 받으면 한 줄 씩 나오기 때문에 while문으로 전체를 다 읽어야 함
+		String responseText = "";
 		String line;
 		while((line = br.readLine()) != null ) {
 			responseText += line + "\n";
 		}
-		System.out.println(responseText);		
 		*/
-		responseText = br.readLine();
-		System.out.println(responseText);
+		
+		// JSON은 응답데이터가 한 줄로 온다 => responseText를 br.readLine()로 한번만 읽으면된다
+		String responseText = br.readLine();
 		
 		/*
 		 * https://apis.data.go.kr/B552584/ArpltnInforInqireSvc/getCtprvnRltmMesureDnsty?serviceKey=URVZtGWbCxrS0aRaW5B9IIihfxuygs0SyeQ2xfz1xlyLXGKBEr4lADwqNSKV0ldhG1%2BO0NTJjLWjhARp8LAruA%3D%3D&sidoName=%EC%84%9C%EC%9A%B8&returnType=json
@@ -71,13 +75,15 @@ public class AirPollutionJavaApp {
 
 		 */
 		
-		// 라이브러리
-		// JSONObject, JSONArray => JSON라이브러리에서 제공하는 클래스
-		// JsonObject, JsonArray, JsonElement => Gson에서 제공, 2.8.6부터 제공
+		// JSON형태의 데이터를 java의 문자열로 받아왔는데 이걸 가공하여 VO에 넣어야 함
+		// => 어렵고 귀찮은 작업이므로 편하게 하기위해 라이브러리를 사용
+		// JSONObject, JSONArray => JSON라이브러리에서 제공하는 클래스 / 헷갈리지 말 것~ 
+		// JsonObject, JsonArray, JsonElement => GSON에서 제공, 2.8.6부터 제공
 		
+		// JsonParser == 문자열을 JSON형태로 파싱해줌, 자바스크립트의 객체 형태로 받아주고 싶기 때문에 getAsJsonObject라는 메소드 사용
 		JsonObject totalObj = JsonParser.parseString(responseText).getAsJsonObject();
 		//System.out.println(totalObj);
-		JsonObject responseObj = totalObj.getAsJsonObject("response"); // response속성에 접근 => {} JsonObject
+		JsonObject responseObj = totalObj.getAsJsonObject("response"); // response속성에 접근 => 반환형은 {} JsonObject
 		//System.out.println(responseObj);
 		JsonObject bodyObj = responseObj.getAsJsonObject("body");
 		//System.out.println(bodyObj);
@@ -106,20 +112,12 @@ public class AirPollutionJavaApp {
 		}
 
 		for(AirVO air : list) {
-			System.out.println(air);
+			//System.out.println(air);
 		}
 		
 		
 		// 다사용한 객체 반납
 		br.close();
 		urlConnection.disconnect();
-		
-		
-		
-		
-		
-		
-		
-		
 	}
 }

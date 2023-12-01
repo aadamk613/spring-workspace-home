@@ -186,7 +186,7 @@ public class MemberController { // RequestMapping타입의 애노테이션을 �
 			 * 
 			 * return "abc";
 			 * 
-			 * servlet-context.mwl <- ViewResolver
+			 * servlet-context.xml <- ViewResolver
 			 * 
 			 * - prefix : /WEB/INF/views
 			 * 
