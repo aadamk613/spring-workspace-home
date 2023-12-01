@@ -43,7 +43,7 @@ public class BoardController {
 		
 		return "board/boardListView";
 	}
-	
+
 	@RequestMapping("enrollForm.bo")
 	public String enrollForm() {
 		return "board/boardEnrollForm";
@@ -222,7 +222,7 @@ public class BoardController {
 			
 			// 기존에 첨부파일이 존재했는지 체크 => 기존의 첨부파일 삭제
 			if(b.getOriginName() != null) {
-				new File(session.getServletContext().getRealPath(b.getChangeName()));
+				new File(session.getServletContext().getRealPath(b.getChangeName())).delete();
 			}
 			
 			// 새로 넘어온 첨부파일 서버에 업로드 시키기

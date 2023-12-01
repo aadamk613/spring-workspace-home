@@ -13,6 +13,11 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<typeAlias type="com.kh.spring.board.model.vo.Board" alias="board"/>
 		<typeAlias type="com.kh.spring.board.model.vo.Reply" alias="reply"/>
 		<typeAlias type="com.kh.spring.notice.model.vo.Notice" alias="notice"/>
+		
+		<typeAlias type="com.kh.spring.idol.model.vo.Idol" alias="idol"/>
+		<typeAlias type="com.kh.spring.idol.model.vo.ParentBoard" alias="parent"/>
+		<typeAlias type="com.kh.spring.idol.model.vo.UserBoard" alias="user"/>
+		<typeAlias type="com.kh.spring.idol.model.vo.PhotoBoard" alias="photo"/>
 	</typeAliases>
 	<!-- 주의 : 미리 등록을 해두기 위해서는 반드시 해당 클래스가 진짜 존재하고 있어야 함 -->
 	
@@ -28,6 +33,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	 	<mapper resource="/mapper/board-mapper.xml" />
 	 	<mapper resource="/mapper/notice-mapper.xml" />
 	 	
+	 	<mapper resource="/mapper/idol-mapper.xml" />
 	 </mappers>
 	<!-- 주의 : 미리 등록을 해두려면 해당 mapper파일이 존재하고 있어야함 + namespace속성값도 있어야함! -->	
 	

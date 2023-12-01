@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="idolMapper">
+	
+	<resultMap type="idol" id="boardResultSet">
+		<result	column="ID" 		property="id" />
+	    <result	column="NAME" 	property="name" />
+	    <result	column="MEMBER" 	property="member" />
+	    <result	column="SONG" 	property="song" />
+	    <result	column="IMAGE" 			property="image" />
+	    <result	column="DESCRIPTION" 	property="description" />
+	</resultMap>
+	
+	<select id="selectIdols" resultType="idol">
+		
+		SELECT 
+				  ID
+				  ,NAME
+				  ,MEMBER
+				  ,IMAGE
+				  ,DESCRIPTION
+			FROM
+				  IDOL
+			ORDER
+			   BY ID
+	
+	</select>
+	
+	<insert id="insertIdol" parameterType="idol">
+		INSERT 
+		  INTO
+		  		IDOL
+		  VALUES
+		  		(
+		  		SEQ_IDOL_ID.NEXTVAL,
+		  		#{ name },
+		  		#{ member }, 
+		  		#{ song }, 
+		  		#{ image }, 
+		  		#{ description }
+		  		)
+		
+	</insert>
+	
+	<delete id="deleteIdol">
+		
+		DELETE FROM IDOL
+		WHERE ID = #{ id }
+	
+	
+	</delete>
+	
+</mapper>
