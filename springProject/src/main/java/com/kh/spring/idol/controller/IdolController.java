@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kh.spring.idol.model.service.IdolService;
@@ -22,6 +23,7 @@ import com.kh.spring.idol.model.vo.ParentBoard;
 
 import lombok.RequiredArgsConstructor;
 
+@RequestMapping("/idol")
 @CrossOrigin("*") // 어디서 오는 요청이든 받겠다
 @RestController // 뷰 리졸버를 갈 일이 없음, 컨트롤러의 역할을 하는것은 맞는데, 응답할 때 무조건 데이터로 응답 == @ResponseBody생략 가능
 @RequiredArgsConstructor // 롬복에 포함된 것, 이걸 달면 내가 가지고 있는 모든 필드를 포함한 매개변수 생성자를 만들어 줌
@@ -61,7 +63,7 @@ public class IdolController {
 	// ResponseEntity: 스프링에서 자체적으로 제공하는 데이터 반환시 사용할 수 있는 타입 
 	// 돌려줄수 있는 값: 돌려보내 줄 데이터, 헤더의 정보, 응답 코드
 	// HttpHeaders도 스프링 제공
-	@GetMapping(value="/idols")
+	//@GetMapping(value="/idols")
 	public ResponseEntity<List<Idol>> selectIdols() {
 		
 		List<Idol> idolList = idolService.selectIdols();
@@ -75,7 +77,7 @@ public class IdolController {
 		// vs에서 npm install axios하기
 	}
 	
-	@PostMapping("idol") // post형식을 httpBody에 담기기 때문에 애노테이션을 달아줌
+	//@PostMapping("idol") // post형식을 httpBody에 담기기 때문에 애노테이션을 달아줌
 	public ResponseEntity<String> insertIdol(@RequestBody Idol idol) {
 		// 객체명을 react와 같게 만들어놓아서 커맨드객체 방식으로 사용 가능함
 		String result = idolService.insertIdol(idol) != 0 ? "success" : "fail";
